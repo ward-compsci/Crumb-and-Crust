@@ -10,8 +10,8 @@ function [regionProperties,crust] = findRegionProperties(numPoints)
 
     [crust ,regionProperties] = generateCrustCrumbPoints(conc, numPoints);
 
-    save(['..' filesep 'output' filesep 'regionProperties', 'regionProperties']);
-    save(['..' filesep 'output' filesep 'crustProperties', 'crust']);
+    save(['..' filesep 'output' filesep 'regionProperties'], 'regionProperties');
+    save(['..' filesep 'output' filesep 'crustProperties'], 'crust');
 
     
 

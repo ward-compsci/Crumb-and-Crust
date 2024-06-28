@@ -16,7 +16,7 @@ function [alphaShapePoints,alphaShapeIdx] = findAlphaShape(points,alpha)
     tri = delaunayn(points);
     numSimplices = size(tri,1);
 
-    save(['..' filesep 'output' filesep 'tri'], 'tri', '-mat');
+    save(['..' filesep 'output' filesep 'tri'], 'tri');
 
 
     alphaShapeIdx = cell(numSimplices,n+1);

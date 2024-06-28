@@ -22,5 +22,5 @@ plotmesh_fiducials(forearmMesh)
 %%%
 
 forearmMesh = load_mesh(['..' filesep 'output' filesep 'mesh' filesep 'forearmMesh']);
-allPoints = load(['..' filesep 'output' filesep 'regionProperties.mat']);
-allPoints = allPoints.regionProperties;
+allPointProperties = load(['..' filesep 'output' filesep 'regionProperties.mat']);
+allPo
