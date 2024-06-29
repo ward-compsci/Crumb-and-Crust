@@ -1,24 +1,18 @@
-function regionMua = muaCalculation(regionProperties)
+function muaArray = muaCalculation(regionProperties)
 
     
-    numRegions = numel(regionProperties);
-    [numElements,dim] = size(regionProperties{1});
+    [numPoints,~] = size(regionProperties);
     
     opticalProperties = loadOpticalProperties;
     numWavelengths = length(opticalProperties);
 
+    muaArray = zeros([numPoints,numWavelengths]);
 
-    regionMua = cell([1 numRegions]);
-    temp = zeros([numElements,numWavelengths,dim]);
-
-    for i = 1:numRegions
-        for j = 1:dim
-            for k = 1:numWavelengths
-                temp(:,k,j) = opticalProperties(k,j+1) * regionProperties{i}(:,j);
-                mua = sum(temp,3);
-            end
+    for i = 1:numPoints
+        for j = 1:numWavelengths
+            muaArray(i,j) = opticalProperties(j,2:end-1) * regionProperties(i,2:end-1).';
+            muaArray(i,j) = muaArray(i,j) + regionProperties(i,1) * 1e3;
         end
-        regionMua{i} = mua;
     end
 
 end

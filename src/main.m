@@ -24,3 +24,6 @@ plotmesh_fiducials(forearmMesh)
 forearmMesh = load_mesh(['..' filesep 'output' filesep 'mesh' filesep 'forearmMesh']);
 allPoints = load(['..' filesep 'output' filesep 'regionProperties.mat']);
 allPoints = allPoints.regionProperties;
+
+syntheticData = runForearmSimulations(forearmMesh,allPoints);
+%save(['..' filesep 'output' filesep 'syntheticData'], 'syntheticData');

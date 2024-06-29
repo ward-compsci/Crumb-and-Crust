@@ -23,7 +23,7 @@ function region_lim = chromophoreConcentrations()
     
     %region_lim = [region_lim baselineMua];
 
-    region_lim = [baselineMua; O2Hb_lim; HHb_lim; WF_lim; FF_lim; mus_lim];
+    region_lim = [baselineMua; O2Hb_lim; HHb_lim; WF_lim; FF_lim; mus_lim].';
 
     writematrix(region_lim,['..' filesep 'output' filesep 'regionAll_lims']);
 
