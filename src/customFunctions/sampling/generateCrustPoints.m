@@ -21,11 +21,7 @@ function boundaryPoints = generateCrustPoints(ylims,crustPoints,rate)
     end
     
     
-    %cartesianProduct = cartesian(boundaryPoints(:,1),boundaryPoints(:,2),boundaryPoints(:,3),boundaryPoints(:,4),boundaryPoints(:,5));
-
-
     fullSet = cartesianProduct(borderPoints);
-    %fullSet = int16(fullSet);
 
     alphaShapePoints = findAlphaShape(fullSet,alpha);
     
