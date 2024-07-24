@@ -12,12 +12,14 @@ addpath(genpath(['..']))
 
 
 %%%
+
 forearmMesh = createForearmMesh;
 
 plotmesh(forearmMesh)
 plotmesh_fiducials(forearmMesh)
 
 [allPointProperties,crustProperties] = findRegionProperties();
+syntheticData = runForearmSimulations(forearmMesh,allPointProperties,'');
 
 %%%
 
@@ -25,5 +27,9 @@ forearmMesh = load_mesh(['..' filesep 'output' filesep 'mesh' filesep 'forearmMe
 allPoints = load(['..' filesep 'output' filesep 'regionProperties.mat']);
 allPoints = allPoints.regionProperties;
 
-syntheticData = runForearmSimulations(forearmMesh,allPoints);
+syntheticData = load(['..' filesep 'output' filesep 'syntheticData_.mat']);
+syntheticData = syntheticData.syntheticData;
+
+
 %save(['..' filesep 'output' filesep 'syntheticData'], 'syntheticData');
+

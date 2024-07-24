@@ -3,12 +3,12 @@ function [regionProperties,crust] = findRegionProperties(numPoints)
 %   Detailed explanation goes here
 
     arguments
-        numPoints = 100
+        numPoints = 1000
     end
 
     conc = chromophoreConcentrations;
 
-    [crust ,regionProperties] = generateCrustCrumbPoints(conc, numPoints);
+    [crust ,regionProperties] = generateCrustCrumbPoints(conc, numPoints, 5);
 
     save(['..' filesep 'output' filesep 'regionProperties'], 'regionProperties');
     save(['..' filesep 'output' filesep 'crustProperties'], 'crust');

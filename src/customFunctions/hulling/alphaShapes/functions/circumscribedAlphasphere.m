@@ -31,8 +31,8 @@ function centres = circumscribedAlphasphere(points,alpha)
     A = points;
     b = ones([length(points),1]);
 
-    %coeffs = inv(A) * b;
-    coeffs = A \ b;
+    coeffs = pinv(A) * b;
+    %coeffs = A \ b;
 
     vecLength = sqrt(sum(coeffs.^2));
     coeffs = coeffs / vecLength;

@@ -10,8 +10,8 @@ function muaArray = muaCalculation(regionProperties)
 
     for i = 1:numPoints
         for j = 1:numWavelengths
-            muaArray(i,j) = opticalProperties(j,2:end-1) * regionProperties(i,2:end-1).';
-            muaArray(i,j) = muaArray(i,j) + regionProperties(i,1) * 1e3;
+            muaArray(i,j) = opticalProperties(j,2:end-1) * regionProperties(i,1:end-1).';
+            %muaArray(i,j) = muaArray(i,j) + regionProperties(i,1);
         end
     end
 

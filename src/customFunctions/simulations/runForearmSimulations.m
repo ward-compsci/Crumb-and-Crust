@@ -1,4 +1,4 @@
-function syntheticData = runForearmSimulations(mesh,regionProperties)
+function syntheticData = runForearmSimulations(mesh,regionProperties,name)
 %RUNFOREARMSIMULATIONS Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -44,7 +44,7 @@ function syntheticData = runForearmSimulations(mesh,regionProperties)
         delete(pool);
     end
 
-    save(['..' filesep 'output' filesep 'syntheticData'], 'syntheticData');
+    save(['..' filesep 'output' filesep 'syntheticData_' name], 'syntheticData');
 
     if exist(tempDir, 'dir')
         rmdir(tempDir, 's');

@@ -13,10 +13,15 @@ function [alphaShapePoints,alphaShapeIdx] = findAlphaShape(points,alpha)
     n = size(points,2);
     simplexLength = n+1;
 
-    tri = delaunayn(points);
+    minVals = min(points);
+    maxVals = max(points);
+    normalizedPoints = (points - minVals) ./ (maxVals - minVals);
+
+    %tri = delaunayn(points);
+    tri = delaunayn(normalizedPoints);
     numSimplices = size(tri,1);
 
-    save(['..' filesep 'output' filesep 'tri'], 'tri');
+    %save(['..' filesep 'output' filesep 'tri'], 'tri');
 
 
     alphaShapeIdx = cell(numSimplices,n+1);
@@ -52,10 +57,7 @@ function [alphaShapePoints,alphaShapeIdx] = findAlphaShape(points,alpha)
                     alphaShapePoints{i,j} = hyperface_points;
                 end
             end
-
         end
-        
-
     end
 
 

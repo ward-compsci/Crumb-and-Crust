@@ -19,11 +19,11 @@ function newTab = loadOpticalProperties()
     newTab = ones(121,6);
 
     newTab(:,1) = tab{136:256,1};
-    newTab(:,2) = tab{136:256,3};%O2Hb
-    newTab(:,3) = tab{136:256,4};%HHb
+    newTab(:,2) = tab{136:256,3} ./ 10;%O2Hb
+    newTab(:,3) = tab{136:256,4} ./ 10;%HHb
     newTab(:,4) = waterMua(tab{136:256,2});%mua_water
     newTab(:,5) = fatValues{352:472,2};%Fat https://omlc.org/spectra/fat/fat.txt
-    newTab(:,6) = tab{136:256,5};%oxCCO
+    newTab(:,6) = tab{136:256,5} ./ 10;%oxCCO
 
   
 
