@@ -12,11 +12,11 @@
 octave-workspace
 
 # Ignore all files and subdirectories in the output directory
-/output/*
+output/*
 
 # Do not ignore the mesh directory itself
-!/output/mesh/
+!output/mesh/
 
 # Ignore all files inside the mesh directory
-/output/mesh/*
-!/output/mesh/.gitkeep
+output/mesh/*
+!output/mesh/.gitkeep
