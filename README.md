@@ -11,3 +11,9 @@ To install and set up the Crumb and Crust project, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/ward-compsci/Crumb-and-Crust.git
+
+## Test
+Most features have an appropriate test. The full Crumb-and-Crust directory should be preloaded in the path to run them, and some require the NIRFASTer directory to be loaded as well.
+
+## Citations
+This project makes use of [NIRFASTer](http://www.nirfast.co.uk/) and [Scattered Data Interpolation and Approximation using Radial Base Functions (Alex Chrikov 2024)](https://uk.mathworks.com/matlabcentral/fileexchange/10056-scattered-data-interpolation-and-approximation-using-radial-base-functions)

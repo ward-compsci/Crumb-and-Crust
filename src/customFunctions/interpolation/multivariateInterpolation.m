@@ -1,33 +1,15 @@
-function interpolatedPoint = multivariateInterpolation(parameterSet, obsSet, point)
+function interpolatedPoint = multivariateInterpolation(F, point, step_points)
 
-    %obsSet = syntheticData(:,1:10:end);
-    %parameterSet = allPoints;
+    interpolatedPoint = zeros([1,5]);
 
-    %point = rand([1,13]) * 1e-9;
-
-
-    %[simplex, distances, obsSet] = findSimplex(obsSet, point);
-    %%
-%     [nearestIndices,nearestDistances] = IDWInterpolation(obsSet,point);
-% 
-%     parameterPoints = parameterSet(nearestIndices,:);
-% 
-%     weights = 1 ./ nearestDistances.^2;
-%     
-%     onLattice = isinf(weights);
-%     
-%     if sum(onLattice) > 0
-%         [~,idx] = max(weights);
-%         interpolatedPoint = parameterPoints(idx,:)'
-%     else
-%         weights = weights / sum(weights);
-%         interpolatedPoint = sum(weights .* parameterPoints);
-%     end
+%     step_points = {1:5:60; 1:10:121; 1:3:121; 1:3:121; 1:3:121};
 
 
-    closestPoints = knnsearch(flip(sort(obsSet(:,end))),point.',"k",5);
-
-    interpolatedPoint = mean(parameterSet(closestPoints,:));
+    for i = 1:5
+%         F = rbfcreate(obsSet(:,step_points{i})',parameterSet(:,i)','RBFFunction','cubic');
+        temp = rbfinterp(point(step_points{i})',F{i});
+        interpolatedPoint(i) = temp.';
+    end
 
 
 end
