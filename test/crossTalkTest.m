@@ -6,40 +6,28 @@ function crossTalkTest()
     regionLims = load(['..' filesep 'output' filesep 'regionAll_lims.txt']);
     numParams = length(regionLims);
     
-    % Initial values for the parameters
     initialValues = ((regionLims(2,:) - regionLims(1,:)) * .2) + regionLims(1,:);
-    
-    % Define the increase factor (e.g., 3 for 200% increase)
     increaseFactor = ((regionLims(2,:) - regionLims(1,:)) * .8) + regionLims(1,:);
-    
-    % Define the number of steps for the increase and decrease
     numSteps = 10;
-    
-    % Define the total number of points per parameter
     totalSteps = 2 * numSteps - 1; % because the peak value is counted twice
-    
-    % Number of points to start earlier for crosstalk
     crosstalkOffset = 5;
-    
-    % Calculate the total number of points considering the crosstalk
     totalPoints = totalSteps + crosstalkOffset * (numParams - 1);
     
-    % Initialize the testPoints matrix
     testPoints = repmat(initialValues, totalPoints, 1);
     
     for i = 1:numParams
-        % Generate the increase and decrease sequences
         increase = linspace(initialValues(i), increaseFactor(i), numSteps);
         decrease = linspace(increaseFactor(i), initialValues(i), numSteps);
         increaseDecrease = [increase, decrease(2:end)];
         
-        % Calculate the starting index considering the crosstalk offset
         startIndex = (i - 1) * crosstalkOffset + 1;
         
-        % Fill in the testPoints matrix
         endIndex = startIndex + totalSteps - 1;
         testPoints(startIndex:endIndex, i) = increaseDecrease;
     end
+
+    save(['..' filesep 'output' filesep 'crossTalkTestPoints'],"testPoints");
+
 
 
     figure
@@ -74,7 +62,13 @@ function crossTalkTest()
     obsSet_original = obsSet;
     testSyntheticData_original = testSyntheticData;
 
-    step_points = {1:5:60; 1:10:121; 1:3:121; 1:3:121; 1:3:121};
+    step_points = {1:5:211; 1:2:211; 1:3:211; 1:3:211; 1:5:211};
+    % obsSet = obsSet(:,91:end);
+    % testSyntheticData = testSyntheticData(:,91:end);
+
+    % step_points = {1:3:90; 1:3:121; 1:3:121; 1:3:121; 1:3:121};
+    step_points = {1:40:211; 1:40:211; 1:40:211; 1:40:211; 1:40:211};
+
 
     F = generateRBFs(parameterSet,obsSet,step_points);
 
@@ -139,6 +133,8 @@ function crossTalkTest()
         plot(testPoints(:,i));
         title(names{i})
     end
+
+
 
 
 end

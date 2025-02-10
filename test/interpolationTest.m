@@ -24,6 +24,7 @@ function interpolationTest()
         testPoints((numSteps*(i-1)+1):(numSteps*(i-1)+1)+numSteps-1, i) = increase;
     end
 
+    save(['..' filesep 'output' filesep 'interpolationTestPoints'],"testPoints");
 
     %%
 
@@ -45,22 +46,40 @@ function interpolationTest()
     parameterSet = load(['..' filesep 'output' filesep 'regionProperties.mat']);
     parameterSet = parameterSet.regionProperties;
 
-    parameterSet_original = parameterSet;
-    testPoints_original = testPoints;
+    % obsSet = obsSet(:,91:end);
+    % testSyntheticData = testSyntheticData(:,91:end);
+    % step_points = {1:3:90; 1:3:121; 1:3:121; 1:3:121; 1:3:121};
 
-    obsSet_original = obsSet;
-    testSyntheticData_original = testSyntheticData;
+    step_points = {1:5:211; 1:2:211; 1:3:211; 1:3:211; 1:5:211};
+    step_points = {1:40:211; 1:40:211; 1:40:211; 1:40:211; 1:40:211};
 
-
-    step_points = {1:5:60; 1:10:121; 1:3:121; 1:3:121; 1:3:121};
-
+    
     F = generateRBFs(parameterSet,obsSet,step_points);
 
-    for i = 1:height(testSyntheticData_original)
+    for i = 1:height(testSyntheticData)
         interpolated_values(i,:) = multivariateInterpolation(F,testSyntheticData(i,:),step_points);
     end
 
 
+
+% 
+%     params = zeros([50,5]);
+%     for i = 1:50
+%         tempParams = zeros([121,5]);
+%         for j = 1:121
+%             [~,closest] = min(abs(obsSet(:,j) - testSyntheticData(i,j)));
+%             tempParams(j,:) = parameterSet(closest,:);
+%         end
+%         params(i,:) = mean(tempParams);
+%     end
+% 
+%     figure
+%     for i = 1:numParams
+%         subplot(2, 3, i);
+%         hold on;
+%         plot(params(:,i));
+%         plot(testPoints(:,i));
+%     end
 
     figure
     for i = 1:numParams
@@ -108,7 +127,7 @@ function interpolationTest()
     end
 
 
-    names = {'O2Hb','HHb','WF','FF','mus'};
+    names = {'O2Hb','HHb','WF','FF','mus', 'melanin'};
 
     figure
     for i = 1:numParams

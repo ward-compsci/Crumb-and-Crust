@@ -7,7 +7,7 @@ function [crust,crustCrumbPoints] = generateCrustCrumbPoints(ylims,crumbPoints,c
         crumbPoints
         crustPoints = 3
         bubble = .01
-        rate = 2.7
+        rate = 1
     end    
 
     yLims = ylims;

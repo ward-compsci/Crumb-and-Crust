@@ -23,22 +23,41 @@ function syntheticData = runForearmSimulations(mesh,regionProperties,name)
         poolCreated = false;
     end
 
-    parfor j = 1:numWavelengths
-        tempSyntheticData = zeros([numPoints,1]);
 
-        for i = 1:numPoints
-            tempMesh = mesh;
-            tempMesh = setMeshProperties(tempMesh,muaArray(i,j),mus(i));
-            temp = femdata_FD(tempMesh, 0);
-            tempSyntheticData(i) = temp.amplitude;
-            syntheticData(i,j) = tempSyntheticData(i);
+    for j = 1:numWavelengths
+        saveFileName = sprintf('tempSyntheticData_%d.mat', j);
+        if exist(saveFileName, 'file')
+            tempStruct = load([tempDir filesep saveFileName]);
+            tempStruct = tempStruct.tempSyntheticData;
+            syntheticData(:,j) = tempStruct;
+        end
+    end
+
+
+    parfor j = 1:numWavelengths
+
+        saveFileName = sprintf('tempSyntheticData_%d.mat', j);
+        disp(saveFileName)
+        saveFilePath = [tempDir filesep saveFileName];
+
+        if ~exist(saveFilePath, 'file')
+            tempSyntheticData = zeros([numPoints,1]);
+    
+            for i = 1:numPoints
+                tempMesh = mesh;
+                tempMesh = setMeshProperties(tempMesh,muaArray(i,j),mus(i));
+                temp = femdata_FD(tempMesh, 0);
+                tempSyntheticData(i) = temp.amplitude;
+                syntheticData(i,j) = tempSyntheticData(i);
+            end
+
+            tempStruct = struct('tempSyntheticData', tempSyntheticData);
+            save([tempDir filesep saveFileName], '-fromstruct', tempStruct);
+
         end
 
-        saveFileName = sprintf('tempSyntheticData_%d', j);
-        tempStruct = struct('tempSyntheticData', tempSyntheticData);
-        save([tempDir filesep saveFileName], '-fromstruct', tempStruct);
-        
     end
+
 
     if poolCreated
         delete(pool);

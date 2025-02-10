@@ -18,8 +18,12 @@ forearmMesh = createForearmMesh;
 plotmesh(forearmMesh)
 plotmesh_fiducials(forearmMesh)
 
-[allPointProperties,crustProperties] = findRegionProperties();
-syntheticData = runForearmSimulations(forearmMesh,allPointProperties,'');
+allPointProperties_CC = findRegionProperties(3000,0);
+syntheticData_CC = runForearmSimulations(forearmMesh,allPointProperties_CC,'');
+
+%allPointProperties_gridlike = findRegionProperties(3000,1);
+%syntheticData_G = runForearmSimulations(forearmMesh,allPointProperties_gridlike,'');
+
 
 %%%
 

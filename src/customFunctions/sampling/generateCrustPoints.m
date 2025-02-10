@@ -5,10 +5,10 @@ function boundaryPoints = generateCrustPoints(ylims,crustPoints,rate)
     arguments
         ylims
         crustPoints = 3
-        rate = 2.7
+        rate = 1
     end
 
-    alpha = 1e5;
+    alpha = 1e4;
 
     yLims = ylims;
     dimensions = size(yLims,2);

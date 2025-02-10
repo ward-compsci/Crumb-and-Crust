@@ -1,17 +1,20 @@
 function muaArray = muaCalculation(regionProperties)
 
     
-    [numPoints,~] = size(regionProperties);
+    [num_points,num_params] = size(regionProperties);
     
     opticalProperties = loadOpticalProperties;
     numWavelengths = length(opticalProperties);
 
-    muaArray = zeros([numPoints,numWavelengths]);
+    muaArray = zeros([num_points,numWavelengths]);
 
-    for i = 1:numPoints
+    for i = 1:num_points
         for j = 1:numWavelengths
-            muaArray(i,j) = opticalProperties(j,2:end-1) * regionProperties(i,1:end-1).';
-            %muaArray(i,j) = muaArray(i,j) + regionProperties(i,1);
+            % if num_params == 3
+            %     muaArray(i,j) = opticalProperties(j,2:3) * regionProperties(i,1:2).';
+            % else
+                muaArray(i,j) = opticalProperties(j,2:num_params) * regionProperties(i,1:num_params-1).';
+            % end
         end
     end
 

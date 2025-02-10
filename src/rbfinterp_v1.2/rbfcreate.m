@@ -63,7 +63,7 @@ options.('RBFSmooth')   = 0;
 options.('Stats')       = 'off';
 
 %**************************************************************************
-% Argument parsing code: similar to ODESET.m
+% % Argument parsing code: similar to ODESET.m
 %**************************************************************************
 
 i = 1;

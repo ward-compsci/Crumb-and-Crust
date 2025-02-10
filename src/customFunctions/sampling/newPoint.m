@@ -4,7 +4,7 @@ function point = newPoint(ylims,rate)
 
     arguments
         ylims
-        rate = 2.7
+        rate = 1
     end
 
     yLims = ylims;
