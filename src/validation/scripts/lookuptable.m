@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % Define grid points
-x1 = linspace(0,1,10);
-x2 = linspace(0,1,10);
+x1 = linspace(1e-5,1,10);
+x2 = linspace(1e-5,1,10);
 
 y = zeros(100,2);
 X = zeros(100,2); % Store original grid for left plot

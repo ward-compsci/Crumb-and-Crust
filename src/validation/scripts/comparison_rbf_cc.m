@@ -1,4 +1,4 @@
-function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,method,cycles,test_points)
+function validation = comparison_rbf_cc(ylims,npoints,dimensions,perturbation,method,cycles,test_points,bubble,totalPoints)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,6 +10,8 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
         method = 'abs'
         cycles = 1
         test_points=729
+        bubble=0.0001
+        totalPoints=npoints^dimensions
     end
 
     nPoints = npoints;
@@ -47,11 +49,6 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
         disp('Input dimensions not supported')
     end
 
-    % y_true = yLims(1) + (yLims(2)-yLims(1))*rand(target_length,dimensions);
-    
-    base = .75 + (1.25-.75) * rand;
-    base = exp(base);
-
     base = exp(1);
 
     if dimensions == 1
@@ -59,12 +56,11 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
     else
         x_true = generateXValues_2(y_true,base);
     end
-        % x_true = generateXValues_2(y_true);
 
     validation.y = y;
     validation.yLims = yLims;
 
-    validation.err = ones([length(y_true),4,cycles]);
+    validation.err = ones([length(y_true),1,cycles]);
     
 
     for cycle = 1:cycles
@@ -78,31 +74,17 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
             y_fullSet = y_true + pert;
         end
 
-        yBrute = generateBruteForcePoints_validation(nPoints,yLims,dimensions);
-        yGradient = generateGradientPoints_validation_2(nPoints,yLims,dimensions,1);
-        yCrustCrumb = generateCrustCrumbPoints_validation_2(nPoints,yLims,dimensions,1);
-        yRandom = generateRandomPoints_validation(nPoints,yLims,dimensions);
+        yCrustCrumb = generateCrustCrumbPoints_validation_2(nPoints,yLims,dimensions,1,bubble,totalPoints);
 
-        if mod(cycle,10)==1
-            disp(['Cycle ' num2str(counter)])
-            disp(['Number of points - Brute: ' num2str(numel(yBrute)/dimensions), ' / Gradient: ' num2str(numel(yGradient)/dimensions)...
-                ' / yCrustCrumb: ' num2str(numel(yCrustCrumb)/dimensions) ' / yRandom: ' num2str(numel(yRandom)/dimensions)])
-        end
-
-        xBrute = generateXValues_2(yBrute,base);
-        xGradient = generateXValues_2(yGradient,base);
         xCrustCrumb = generateXValues_2(yCrustCrumb,base);
-        xRandom = generateXValues_2(yRandom,base);
-        % xBrute = generateXValues_2(yBrute);
-        % xGradient = generateXValues_2(yGradient);
-        % xCrustCrumb = generateXValues_2(yCrustCrumb);
-        % xRandom = generateXValues_2(yRandom);
 
         %.err takes the form (point:lattice:cycle)
-        validation.err(:,1,cycle) = errorMethods(x_true,interpolationMethods(yBrute,xBrute,y_fullSet,'RBF'),method);
-        validation.err(:,2,cycle) = errorMethods(x_true,interpolationMethods(yGradient,xGradient,y_fullSet,'RBF'),method);
-        validation.err(:,3,cycle) = errorMethods(x_true,interpolationMethods(yRandom,xRandom,y_fullSet,'RBF'),method);
-        validation.err(:,4,cycle) = errorMethods(x_true,interpolationMethods(yCrustCrumb,xCrustCrumb,y_fullSet,'RBF'),method);
+        validation.err(:,1,cycle) = errorMethods(x_true,interpolationMethods(yCrustCrumb,xCrustCrumb,y_fullSet,'RBF'),method);
+
+        if mod(cycle,50)==1
+            disp(['Cycle ' num2str(counter)])
+            disp(['Number of points - Crust Crumb: ' num2str(numel(yCrustCrumb)/dimensions)])
+        end
 
 
     end

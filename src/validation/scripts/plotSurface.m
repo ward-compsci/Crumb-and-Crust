@@ -1,12 +1,13 @@
 function plotSurface()
     
+    rng(42)
 
     target_length = 4096; % perfect square, perfect cube
 
     yLims = [0.001 + 0.01, .99];
     % yLims = [10, 50];
 
-    points = 5;
+    points = 6;
 
     y = linspace(yLims(1), yLims(2), round(sqrt(target_length)));
     y_true = cartesian(y,y);
@@ -38,9 +39,9 @@ function plotSurface()
     nexttile
     surf(X, Y, Z,'FaceAlpha',0.5);
     
-    xlabel('\boldmath{$\theta_1$}', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('\boldmath{$\theta_2$}', 'Interpreter', 'latex', 'FontSize', 20);
-    zlabel('\boldmath{$\pi$}', 'Interpreter', 'latex', 'FontSize', 20);
+    xlabel('$\i_1$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$\i_2$', 'Interpreter', 'latex', 'FontSize', 20);
+    zlabel('$\pi$', 'Interpreter', 'latex', 'FontSize', 20);
 
     title('Gridlike', 'Fontsize', 20);
 
@@ -49,7 +50,7 @@ function plotSurface()
     Z_points = griddata(x, y, x_true, yLattice(:,1), yLattice(:,2), 'v4');  % Interpolate to get the Z values at x, y
 
     hold on;
-    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 50, 'r', 'filled');  % Scatter plot of the points
+    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 20, 'r', 'filled');  % Scatter plot of the points
     hold off;
 
     view(azimuth, elevation);
@@ -59,16 +60,16 @@ function plotSurface()
     nexttile
     surf(X, Y, Z,'FaceAlpha',0.5);
 
-    xlabel('\boldmath{$\theta_1$}', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('\boldmath{$\theta_2$}', 'Interpreter', 'latex', 'FontSize', 20);
-    zlabel('\boldmath{$\pi$}', 'Interpreter', 'latex', 'FontSize', 20);
+    xlabel('$\i_1$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$\i_2$', 'Interpreter', 'latex', 'FontSize', 20);
+    zlabel('$\pi$', 'Interpreter', 'latex', 'FontSize', 20);
     title('Gradient', 'Fontsize', 20);
 
     yLattice = generateGradientPoints_validation_2(points,yLims,2,1);
     Z_points = griddata(x, y, x_true, yLattice(:,1), yLattice(:,2), 'v4');  % Interpolate to get the Z values at x, y
 
     hold on;
-    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 50, 'r', 'filled');  % Scatter plot of the points
+    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 20, 'r', 'filled');  % Scatter plot of the points
     hold off;
 
     view(azimuth, elevation);
@@ -77,9 +78,9 @@ function plotSurface()
     nexttile
     surf(X, Y, Z,'FaceAlpha',0.5);
     
-    xlabel('\boldmath{$\theta_1$}', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('\boldmath{$\theta_2$}', 'Interpreter', 'latex', 'FontSize', 20);
-    zlabel('\boldmath{$\pi$}', 'Interpreter', 'latex', 'FontSize', 20);
+    xlabel('$\i_1$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$\i_2$', 'Interpreter', 'latex', 'FontSize', 20);
+    zlabel('$\pi$', 'Interpreter', 'latex', 'FontSize', 20);
 
     title('Crust & Crumb', 'Fontsize', 20);
 
@@ -87,7 +88,7 @@ function plotSurface()
     Z_points = griddata(x, y, x_true, yLattice(:,1), yLattice(:,2), 'v4');  % Interpolate to get the Z values at x, y
 
     hold on;
-    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 50, 'r', 'filled');  % Scatter plot of the points
+    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 20, 'r', 'filled');  % Scatter plot of the points
     hold off;
 
     view(azimuth, elevation);
@@ -96,9 +97,9 @@ function plotSurface()
     nexttile
     surf(X, Y, Z,'FaceAlpha',0.5);
     
-    xlabel('\boldmath{$\theta_1$}', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('\boldmath{$\theta_2$}', 'Interpreter', 'latex', 'FontSize', 20);
-    zlabel('\boldmath{$\pi$}', 'Interpreter', 'latex', 'FontSize', 20);
+    xlabel('$\i_1$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$\i_2$', 'Interpreter', 'latex', 'FontSize', 20);
+    zlabel('$\pi$', 'Interpreter', 'latex', 'FontSize', 20);
 
     title('Random', 'Fontsize', 20);
 
@@ -106,7 +107,7 @@ function plotSurface()
     Z_points = griddata(x, y, x_true, yLattice(:,1), yLattice(:,2), 'v4');  % Interpolate to get the Z values at x, y
 
     hold on;
-    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 50, 'r', 'filled');  % Scatter plot of the points
+    scatter3(yLattice(:,1), yLattice(:,2), Z_points, 20, 'r', 'filled');  % Scatter plot of the points
     hold off;
 
     view(azimuth, elevation);

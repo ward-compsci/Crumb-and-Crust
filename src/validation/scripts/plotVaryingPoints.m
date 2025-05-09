@@ -73,6 +73,7 @@ function rbf_results = plotVaryingPoints(samplingTable)
             samplingPoints = latticeData.Sampling;
             meanErrors = latticeData.MeanError;
             stdErrors = latticeData.StdError;
+            disp(stdErrors)
     
             % Plot with error bars
             d = errorbar(samplingPoints, meanErrors, stdErrors, lineStyles{i}, 'LineWidth', 3);

@@ -150,7 +150,6 @@ function realDataTest
 
 
     step_points = {1:30:211; 1:20:211; 1:20:211; 1:20:211; 1:20:211};
-    %step_points = {1:20:211; 1:20:211; 1:20:211; 1:20:211; 1:20:211};
 
     F = generateRBFs(parameter_set,obs_set,step_points);
 
@@ -160,8 +159,6 @@ function realDataTest
     for i = 1:180
         interpolated_values(i,:) = multivariateInterpolation(F,sgolayfilt(real_data_calibrated(i,:),3,11),step_points);
     end
-
-
 
     names = {'O2Hb','HHb'};
     figure
@@ -176,10 +173,66 @@ function realDataTest
         nexttile, plot(interpolated_values(:,i-2))
     end
 
-    xlabel(t, 'Time (s)','FontSize',20)
-    ylabel(t, 'Concentration (μM)','FontSize',20)
+    %xlabel(t, 'Time (s)','FontSize',20)
+    %ylabel(t, 'Concentration (μM)','FontSize',20)
 
 
+    subsamples_list = 992:1000:3992;
+    
+    figure;
+    t = tiledlayout(length(subsamples_list),2);
+
+    for k = 1:length(subsamples_list)
+        % Rows to keep (e.g., 1000)
+        n_samples = subsamples_list(k);
+        
+        % Generate random indices without replacement
+        idx = randperm(size(obs_set, 1), n_samples);
+        
+        % Undersample both datasets using the same indices
+        obs_set_sub = obs_set(idx, :);
+        parameter_set_sub = parameter_set(idx, :);
+    
+        F = generateRBFs(parameter_set_sub,obs_set_sub,step_points);
+    
+        interpolated_values = zeros([180,5]);
+    
+        for i = 1:180
+            interpolated_values(i,:) = multivariateInterpolation(F,sgolayfilt(real_data_calibrated(i,:),3,11),step_points);
+        end
+    
+        names = {'O2Hb','HHb'};
+        for i = 1:2
+            %subplot(2,2,i);
+            nexttile, plot(interpolated_values(:,i))
+            if k < 2
+                title(names{i})
+            end
+        end
+    end
+
+
+    % Normalize obs_set and real_data_calibrated to unit variance
+    mu = mean(obs_set, 1);
+    sigma = std(obs_set, [], 1);
+    obs_norm = (obs_set - mu) ./ sigma;
+    real_norm = (real_data_calibrated - mu) ./ sigma;
+    
+    % Use knnsearch to find nearest neighbors
+    idx = knnsearch(obs_norm, real_norm); % Each row in real_norm gets closest row in obs_norm
+    
+    % Retrieve corresponding parameter vectors
+    estimated_params = parameter_set(idx, :); % [180 x 5]
+
+    figure;
+    t = tiledlayout(2,3)
+    for i=1:5
+        nexttile;
+        plot(estimated_params(:,i));
+    end
+
+
+    
 
 end
 

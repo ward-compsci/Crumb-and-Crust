@@ -1,4 +1,4 @@
-function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,method,cycles,test_points)
+function validation = comparison_rbf_subsampling(ylims,npoints,dimensions,perturbation,method,cycles,test_points,subsample_frac)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,6 +10,7 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
         method = 'abs'
         cycles = 1
         test_points=729
+        subsample_frac = 1.0
     end
 
     nPoints = npoints;
@@ -83,26 +84,31 @@ function validation = comparison_rbf(ylims,npoints,dimensions,perturbation,metho
         yCrustCrumb = generateCrustCrumbPoints_validation_2(nPoints,yLims,dimensions,1);
         yRandom = generateRandomPoints_validation(nPoints,yLims,dimensions);
 
-        if mod(cycle,10)==1
+        if mod(cycle,50)==1
             disp(['Cycle ' num2str(counter)])
             disp(['Number of points - Brute: ' num2str(numel(yBrute)/dimensions), ' / Gradient: ' num2str(numel(yGradient)/dimensions)...
                 ' / yCrustCrumb: ' num2str(numel(yCrustCrumb)/dimensions) ' / yRandom: ' num2str(numel(yRandom)/dimensions)])
         end
 
-        xBrute = generateXValues_2(yBrute,base);
-        xGradient = generateXValues_2(yGradient,base);
-        xCrustCrumb = generateXValues_2(yCrustCrumb,base);
-        xRandom = generateXValues_2(yRandom,base);
-        % xBrute = generateXValues_2(yBrute);
-        % xGradient = generateXValues_2(yGradient);
-        % xCrustCrumb = generateXValues_2(yCrustCrumb);
-        % xRandom = generateXValues_2(yRandom);
+        % Define a helper function (or just inline code)
+        subsample = @(data, frac) data(randperm(size(data,1), round(frac * size(data,1))), :);
+        
+        % Apply to each sampling method
+        yBrute_sub = subsample(yBrute, subsample_frac);
+        yGradient_sub = subsample(yGradient, subsample_frac);
+        yCrustCrumb_sub = subsample(yCrustCrumb, subsample_frac);
+        yRandom_sub = subsample(yRandom, subsample_frac);
+
+        xBrute = generateXValues_2(yBrute_sub,base);
+        xGradient = generateXValues_2(yGradient_sub,base);
+        xCrustCrumb = generateXValues_2(yCrustCrumb_sub,base);
+        xRandom = generateXValues_2(yRandom_sub,base);
 
         %.err takes the form (point:lattice:cycle)
-        validation.err(:,1,cycle) = errorMethods(x_true,interpolationMethods(yBrute,xBrute,y_fullSet,'RBF'),method);
-        validation.err(:,2,cycle) = errorMethods(x_true,interpolationMethods(yGradient,xGradient,y_fullSet,'RBF'),method);
-        validation.err(:,3,cycle) = errorMethods(x_true,interpolationMethods(yRandom,xRandom,y_fullSet,'RBF'),method);
-        validation.err(:,4,cycle) = errorMethods(x_true,interpolationMethods(yCrustCrumb,xCrustCrumb,y_fullSet,'RBF'),method);
+        validation.err(:,1,cycle) = errorMethods(x_true,interpolationMethods(yBrute_sub,xBrute,y_fullSet,'RBF'),method);
+        validation.err(:,2,cycle) = errorMethods(x_true,interpolationMethods(yGradient_sub,xGradient,y_fullSet,'RBF'),method);
+        validation.err(:,3,cycle) = errorMethods(x_true,interpolationMethods(yRandom_sub,xRandom,y_fullSet,'RBF'),method);
+        validation.err(:,4,cycle) = errorMethods(x_true,interpolationMethods(yCrustCrumb_sub,xCrustCrumb,y_fullSet,'RBF'),method);
 
 
     end

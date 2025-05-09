@@ -46,7 +46,9 @@ function validation = comparison(ylims,npoints,dimensions,perturbation,method,cy
     
     base = .75 + (1.25-.75) * rand;
     base = exp(base);
-    % base = exp(1);
+    
+    base = exp(1);
+    
     if dimensions == 1
         x_true = -log(y_true) / log(base);
     else
@@ -76,7 +78,7 @@ function validation = comparison(ylims,npoints,dimensions,perturbation,method,cy
         yCrustCrumb = generateCrustCrumbPoints_validation_2(nPoints,yLims,dimensions,1);
         yRandom = generateRandomPoints_validation(nPoints,yLims,dimensions);
 
-        if mod(cycle,10)==1
+        if mod(cycle,50)==1
             disp(['Cycle ' num2str(counter)])
             disp(['Number of points - Brute: ' num2str(numel(yBrute)/dimensions), ' / Gradient: ' num2str(numel(yGradient)/dimensions)...
                 ' / yCrustCrumb: ' num2str(numel(yCrustCrumb)/dimensions) ' / yRandom: ' num2str(numel(yRandom)/dimensions)])

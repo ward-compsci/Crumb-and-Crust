@@ -13,10 +13,12 @@ function P = generateXValues_2(measurements, base)
     end
 
     % Compute the parameter using the weighted sum of negative logs with the specified base
+    eps = 1e-10;
+
     if width(measurements) > 1
-        P = -log(sum(measurements, 2)) / log(base);
+        P = -log(sum(measurements, 2) + eps) / log(base + eps);
     else
-        P = -log(measurements) / log(base);
+        P = -log(measurements + eps) / log(base + eps);
     end
 
 end
